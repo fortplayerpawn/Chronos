@@ -3,7 +3,7 @@ import { config } from "..";
 interface ErrorData {
   errorCode: number;
   errorMessage: string;
-  messageVars?: string[] | null[];
+  messageVars?: string[];
   numericErrorCode: number;
   originatingService: string;
   intent: string;
@@ -14,20 +14,13 @@ interface ErrorData {
 export default class errors {
   private static errors: ErrorData[] = [];
 
-  static createError(
-    code: number,
-    route: string | null,
-    message: string,
-    timestamp: string,
-  ): ErrorData {
-    let sanitizedRoute: string | null = null;
-    if (route !== null)
-      sanitizedRoute = route.replace(`http://127.0.0.1:${config.port}/fortnite`, "");
+  static createError(code: number, route: string, message: string, timestamp: string): ErrorData {
+    const sanitizedRoute = route.replace(`http://127.0.0.1:${config.port}/fortnite`, "");
 
     const errorData: ErrorData = {
       errorCode: code,
       errorMessage: message,
-      messageVars: [sanitizedRoute as any],
+      messageVars: [sanitizedRoute],
       numericErrorCode: code,
       originatingService: "Chronos",
       intent: "prod-live",
