@@ -141,6 +141,10 @@ export const Events: Event[] = [
     season: 8,
   },
   {
+    value: "EventFlag.Season9",
+    season: 9,
+  },
+  {
     value: "EventFlag.Season9.Phase1",
     season: 9,
   },

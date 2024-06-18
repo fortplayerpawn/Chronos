@@ -5,6 +5,7 @@ import { User } from "../tables/user";
 import { Account } from "../tables/account";
 import { Tokens } from "../tables/tokens";
 import { Timeline } from "../tables/timeline";
+import { Contentpages } from "../tables/contentpages";
 
 interface DatabaseConfig {
   connectionString?: string;
@@ -23,7 +24,7 @@ export default class Database {
         type: "postgres",
         url: this.dbConfig.connectionString || config.databaseUrl,
         ssl: this.dbConfig.ssl ? { rejectUnauthorized: false } : false,
-        entities: [User, Account, Tokens, Timeline],
+        entities: [User, Account, Tokens, Timeline, Contentpages],
         synchronize: true,
         logging: ["query", "schema", "error", "warn", "info"],
       });
