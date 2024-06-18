@@ -19,4 +19,7 @@ export class Timeline extends BaseEntity {
 
   @Column()
   activeSince!: string;
+
+  @Column()
+  season!: number;
 }

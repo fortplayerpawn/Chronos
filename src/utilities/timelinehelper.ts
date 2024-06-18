@@ -15,9 +15,11 @@ export default class TimelineHelper {
     const uahelper = uaparser(userAgent);
     const eventType = `EventFlag.LobbySeason${uahelper?.season}`;
 
-    const existingTimelines = await Timeline.find();
+    const existingTimelines = await Timeline.find({ where: { season: uahelper?.season } });
 
-    const existingTimeline = existingTimelines.find((timeline) => timeline.eventName === eventType);
+    const existingTimeline = existingTimelines.find(
+      (timeline) => timeline.eventName === eventType && timeline.season === uahelper?.season,
+    );
 
     if (existingTimeline) {
       const allEvents = existingTimelines.map((timeline) => ({
@@ -29,9 +31,11 @@ export default class TimelineHelper {
       return allEvents;
     } else {
       const newTimeline = new Timeline();
+
       newTimeline.eventName = eventType;
       newTimeline.activeUntil = this.activeUntil;
       newTimeline.activeSince = currentDate;
+      newTimeline.season = uahelper?.season as number;
 
       await newTimeline.save();
 
@@ -45,9 +49,14 @@ export default class TimelineHelper {
     }
   }
 
-  public static async addNewEvent(eventType: string, activeSince: string, activeUntil: string) {
+  public static async addNewEvent(
+    eventType: string,
+    activeSince: string,
+    activeUntil: string,
+    season: number,
+  ) {
     try {
-      const existingTimeline = await Timeline.findOne({ where: { eventName: eventType } });
+      const existingTimeline = await Timeline.findOne({ where: { eventName: eventType, season } });
 
       if (existingTimeline) return { success: false, message: "This event already exists." };
 
@@ -56,6 +65,7 @@ export default class TimelineHelper {
       newTimeline.eventName = eventType;
       newTimeline.activeUntil = activeUntil;
       newTimeline.activeSince = activeSince;
+      newTimeline.season = season;
 
       await newTimeline.save();
 

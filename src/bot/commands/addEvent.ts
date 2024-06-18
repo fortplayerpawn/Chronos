@@ -20,6 +20,12 @@ export default class AddEventCommand extends BaseCommand {
         description: "The event you want to add.",
         required: true,
       },
+      {
+        name: "season",
+        type: ApplicationCommandOptionType.Number,
+        description: "The season for the event.",
+        required: true,
+      },
     ],
     defaultMemberPermissions: PermissionFlagsBits.Administrator.toString(),
     dmPermission: false,
@@ -29,7 +35,10 @@ export default class AddEventCommand extends BaseCommand {
     const eventOption = interaction.options.get("event", true);
     const eventValue = eventOption.value as string;
 
-    const eventExists = Events.some((e) => e.value === eventValue);
+    const seasonOption = interaction.options.get("season", true);
+    const seasonValue = seasonOption.value as number;
+
+    const eventExists = Events.some((e) => e.value === eventValue && e.season === seasonValue);
 
     if (!eventExists) {
       const errorEmbed = new EmbedBuilder()
@@ -46,6 +55,7 @@ export default class AddEventCommand extends BaseCommand {
       eventValue,
       activeSince,
       "9999-01-01T00:00:00.000Z",
+      seasonValue,
     );
 
     if (!event.success) {
