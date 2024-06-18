@@ -18,7 +18,7 @@ app.use(async (c, next) => {
   logger.info(`${c.req.url} | ${c.req.method} | ${c.res.status}`);
 });
 
-const db = new Database({
+export const db = new Database({
   connectionString: config.databaseUrl,
 });
 

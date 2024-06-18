@@ -21,8 +21,7 @@ export default class errors {
     timestamp: string,
   ): ErrorData {
     let sanitizedRoute: string | null = null;
-    if (route !== null)
-      sanitizedRoute = route.replace(`http://127.0.0.1:${config.port}/fortnite`, "");
+    if (route !== null) sanitizedRoute = route.replace(/.*\/fortnite/, "");
 
     const errorData: ErrorData = {
       errorCode: code,

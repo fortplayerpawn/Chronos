@@ -4,6 +4,7 @@ import { LoggerFactory } from "typeorm/logger/LoggerFactory.js";
 import { User } from "../tables/user";
 import { Account } from "../tables/account";
 import { Tokens } from "../tables/tokens";
+import { Timeline } from "../tables/timeline";
 
 interface DatabaseConfig {
   connectionString?: string;
@@ -22,7 +23,7 @@ export default class Database {
         type: "postgres",
         url: this.dbConfig.connectionString || config.databaseUrl,
         ssl: this.dbConfig.ssl ? { rejectUnauthorized: false } : false,
-        entities: [User, Account, Tokens],
+        entities: [User, Account, Tokens, Timeline],
         synchronize: true,
         logging: ["query", "schema", "error", "warn", "info"],
       });
