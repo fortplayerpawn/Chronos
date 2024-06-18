@@ -15,32 +15,33 @@ export default class TimelineHelper {
     const uahelper = uaparser(userAgent);
     const eventType = `EventFlag.LobbySeason${uahelper?.season}`;
 
-    let existingTimeline = await Timeline.findOne({ where: { eventName: eventType } });
+    const existingTimelines = await Timeline.find();
 
-    if (existingTimeline)
-      return [
-        {
-          eventName: existingTimeline.eventName,
-          activeUntil: existingTimeline.activeUntil,
-          activeSince: existingTimeline.activeSince,
-        },
-      ];
-    else {
+    const existingTimeline = existingTimelines.find((timeline) => timeline.eventName === eventType);
+
+    if (existingTimeline) {
+      const allEvents = existingTimelines.map((timeline) => ({
+        eventName: timeline.eventName,
+        activeUntil: timeline.activeUntil,
+        activeSince: timeline.activeSince,
+      }));
+
+      return allEvents;
+    } else {
       const newTimeline = new Timeline();
-
       newTimeline.eventName = eventType;
       newTimeline.activeUntil = this.activeUntil;
       newTimeline.activeSince = currentDate;
 
       await newTimeline.save();
 
-      return [
-        {
-          eventName: newTimeline.eventName,
-          activeUntil: newTimeline.activeUntil,
-          activeSince: newTimeline.activeSince,
-        },
-      ];
+      const allEvents = [...existingTimelines, newTimeline].map((timeline) => ({
+        eventName: timeline.eventName,
+        activeUntil: timeline.activeUntil,
+        activeSince: timeline.activeSince,
+      }));
+
+      return allEvents;
     }
   }
 
