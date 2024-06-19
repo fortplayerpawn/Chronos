@@ -34,6 +34,7 @@ await loadRoutes(path.join(__dirname, "routes"), app);
 
 import("./bot/deployment");
 import("./bot/bot");
+import("./shop/shop");
 
 Bun.serve({
   port: config.port,

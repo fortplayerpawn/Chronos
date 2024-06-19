@@ -12,6 +12,7 @@ const configSchema = z.object({
   bot_token: z.string(),
   guild_id: z.string(),
   client_secret: z.string(),
+  currentSeason: z.number(),
 });
 
 export default class Config {
@@ -24,13 +25,12 @@ export default class Config {
       bot_token: Bun.env.bot_token,
       guild_id: Bun.env.guild_id,
       client_secret: Bun.env.client_secret,
+      currentSeason: parseInt(Bun.env.currentSeason as string, 10),
     });
 
     // Check if parsing was successful
     if (!parsedConfig.success)
-      throw new Error(
-        parsedConfig.error.errors.map((err) => err.message).join("\n")
-      );
+      throw new Error(parsedConfig.error.errors.map((err) => err.message).join("\n"));
 
     this.config = parsedConfig.data;
   }
