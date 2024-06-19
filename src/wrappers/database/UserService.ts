@@ -21,7 +21,11 @@ export default class UserService {
 
   public async findUserByAccountId(accountId: string): Promise<User | null> {
     try {
-      return await this.userRepository.findOne({ where: { accountId } });
+      const user = await this.userRepository
+        .createQueryBuilder("user")
+        .where("user.accountId = :accountId", { accountId })
+        .getOne();
+      return user;
     } catch (error) {
       logger.error(`Error finding user: ${error}`);
       return null;
@@ -30,7 +34,11 @@ export default class UserService {
 
   public async findUserByDiscordId(discordId: string): Promise<User | null> {
     try {
-      return await this.userRepository.findOne({ where: { discordId } });
+      const user = await this.userRepository
+        .createQueryBuilder("user")
+        .where("user.discordId = :discordId", { discordId })
+        .getOne();
+      return user;
     } catch (error) {
       logger.error(`Error finding user: ${error}`);
       return null;

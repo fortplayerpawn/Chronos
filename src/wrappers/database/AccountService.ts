@@ -1,11 +1,9 @@
-import type { Repository } from "typeorm";
+import type { Repository, UpdateResult } from "typeorm";
 import Database from "../Database.wrapper";
 import { logger } from "../..";
 import type { Account } from "../../tables/account";
 import type { ProfileId } from "../../utilities/responses";
 import NodeCache from "node-cache";
-
-const cache = new NodeCache({ stdTTL: 600 });
 
 export default class AccountService {
   private accountRepository: Repository<Account>;
@@ -16,7 +14,11 @@ export default class AccountService {
 
   public async findUserByAccountId(accountId: string): Promise<Account | null> {
     try {
-      return await this.accountRepository.findOne({ where: { accountId } });
+      const account = await this.accountRepository
+        .createQueryBuilder("account")
+        .where("account.accountId = :accountId", { accountId })
+        .getOne();
+      return account;
     } catch (error) {
       logger.error(`Error finding account: ${error}`);
       return null;
@@ -25,7 +27,11 @@ export default class AccountService {
 
   public async findUserByDiscordId(discordId: string): Promise<Account | null> {
     try {
-      return await this.accountRepository.findOne({ where: { discordId } });
+      const account = await this.accountRepository
+        .createQueryBuilder("account")
+        .where("account.discordId = :discordId", { discordId })
+        .getOne();
+      return account;
     } catch (error) {
       logger.error(`Error finding account: ${error}`);
       return null;
@@ -43,42 +49,19 @@ export default class AccountService {
     }
   }
 
-  public async incrementRevision(accountId: string, type: ProfileId): Promise<Account | null> {
-    try {
-      let accountToUpdate = cache.get<Account>(accountId);
+  // public async update(accountId: string, profileId: ProfileId, newData: any) {
+  //   try {
+  //     const existingProfile = await this.findUserByAccountId(accountId);
 
-      if (!accountToUpdate) {
-        accountToUpdate = (await this.accountRepository.findOne({
-          where: { accountId },
-        })) as Account;
+  //     if (existingProfile) {
+  //       existingProfile.athena = newData;
+  //       await this.accountRepository.save(existingProfile);
+  //     }
 
-        if (!accountToUpdate) {
-          logger.error(`Account with accountId ${accountId} not found.`);
-          return null;
-        }
-
-        cache.set(accountId, accountToUpdate);
-      }
-
-      if (!(type in accountToUpdate)) {
-        logger.error(`Profile with type ${type} not found in account.`);
-        return null;
-      }
-
-      // @ts-ignore
-      const profile = accountToUpdate[type];
-      profile.rvn = (profile.rvn || 0) + 1;
-      profile.commandRevision = (profile.commandRevision || 0) + 1;
-      profile.updatedAt = new Date().toISOString();
-
-      const updatedAccount = await this.accountRepository.save(accountToUpdate);
-
-      cache.set(accountId, updatedAccount);
-
-      return updatedAccount;
-    } catch (error) {
-      logger.error(`Error incrementing revision: ${error}`);
-      return null;
-    }
-  }
+  //     return existingProfile;
+  //   } catch (error) {
+  //     logger.error(`Error updating account: ${error}`);
+  //     return null;
+  //   }
+  // }
 }

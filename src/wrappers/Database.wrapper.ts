@@ -1,4 +1,4 @@
-import { Repository, EntityMetadata, DataSource, type Logger } from "typeorm";
+import { Repository, EntityMetadata, DataSource, type Logger, type QueryRunner } from "typeorm";
 import { config, logger } from "..";
 import { LoggerFactory } from "typeorm/logger/LoggerFactory.js";
 import { User } from "../tables/user";
@@ -10,6 +10,39 @@ import { Contentpages } from "../tables/contentpages";
 interface DatabaseConfig {
   connectionString?: string;
   ssl?: boolean;
+}
+
+class ORMLogger implements Logger {
+  logQuery(query: string, parameters?: any[], queryRunner?: import("typeorm").QueryRunner): any {
+    const start = process.hrtime();
+    logger.info(`Query: ${query}`);
+    const duration = process.hrtime(start);
+    const milliseconds = duration[0] * 1000 + duration[1] / 1000000;
+    logger.info(`Duration: ${milliseconds.toFixed(2)}ms`);
+  }
+  logQueryError(
+    error: string,
+    query: string,
+    parameters?: any[],
+    queryRunner?: import("typeorm").QueryRunner,
+  ): any {
+    logger.error(`QueryError: ${error}, Query: ${query}`);
+  }
+  logQuerySlow(
+    time: number,
+    query: string,
+    parameters?: any[],
+    queryRunner?: import("typeorm").QueryRunner,
+  ): any {
+    logger.warn(`QuerySlow: ${time}ms, Query: ${query}`);
+  }
+  logSchemaBuild(message: string, queryRunner?: import("typeorm").QueryRunner): any {
+    logger.debug(`SchemaBuild: ${message}`);
+  }
+  logMigration(message: string, queryRunner?: import("typeorm").QueryRunner): any {
+    logger.info(`Migration: ${message}`);
+  }
+  log(level: "log" | "info" | "warn", message: any, queryRunner?: QueryRunner | undefined) {}
 }
 
 export default class Database {
@@ -26,7 +59,8 @@ export default class Database {
         ssl: this.dbConfig.ssl ? { rejectUnauthorized: false } : false,
         entities: [User, Account, Tokens, Timeline, Contentpages],
         synchronize: true,
-        logging: ["query", "schema", "error", "warn", "info"],
+        logging: true,
+        logger: new ORMLogger(),
       });
 
       await this.connection.initialize();
