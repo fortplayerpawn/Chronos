@@ -13,15 +13,7 @@ export default async function (c: Context) {
   const timestamp = new Date().toISOString();
 
   if (!accountId || !rvn || !profileId) {
-    return c.json(
-      errors.createError(
-        400,
-        c.req.url,
-        "Missing query parameters.",
-        timestamp
-      ),
-      400
-    );
+    return c.json(errors.createError(400, c.req.url, "Missing query parameters.", timestamp), 400);
   }
 
   try {
@@ -32,20 +24,14 @@ export default async function (c: Context) {
 
     if (!user || !account) {
       return c.json(
-        errors.createError(
-          404,
-          c.req.url,
-          "Failed to find user or account.",
-          timestamp
-        ),
-        404
+        errors.createError(404, c.req.url, "Failed to find user or account.", timestamp),
+        404,
       );
     }
 
-    // await accountService.incrementRevision(accountId, profileId); ewwwwww
     const profile = await Profiles.getProfile(accountId, profileId);
 
-    if (!profile) return c.json(MCPResponses.generate({rvn}, [], profileId));
+    if (!profile) return c.json(MCPResponses.generate({ rvn }, [], profileId));
 
     const applyProfileChanges = [
       {
@@ -54,14 +40,9 @@ export default async function (c: Context) {
       },
     ];
 
-    return c.json(
-      MCPResponses.generate(profile, applyProfileChanges, profileId)
-    );
+    return c.json(MCPResponses.generate(profile, applyProfileChanges, profileId));
   } catch (error) {
     void logger.error(`Error in QueryProfile: ${error}`);
-    return c.json(
-      errors.createError(500, c.req.url, "Internal server error.", timestamp),
-      500
-    );
+    return c.json(errors.createError(500, c.req.url, "Internal server error.", timestamp), 500);
   }
 }
