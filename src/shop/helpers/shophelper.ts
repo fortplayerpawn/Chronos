@@ -1,4 +1,13 @@
-import type { Shop, StorefrontNames } from "../interfaces/Declarations";
+import type {
+  BattlePassStorefront,
+  Entries,
+  ItemGrants,
+  Shop,
+  StorefrontNames,
+  Storefronts,
+} from "../interfaces/Declarations";
+import { v4 as uuid } from "uuid";
+import { createBattlePassEntryTemplate } from "./template";
 
 export namespace ShopHelper {
   export function createShop(): Shop {
@@ -15,10 +24,30 @@ export namespace ShopHelper {
     };
   }
 
-  export function createStorefront(shop: Shop, sectionName: StorefrontNames) {
+  export function createStorefront(shop: Shop, sectionName: string): Storefronts {
     shop.storefronts.push({
       name: sectionName,
       catalogEntries: [],
     });
+
+    return {
+      name: sectionName,
+      catalogEntries: [],
+    };
+  }
+
+  export function createBattlePassStorefront(
+    shop: Shop,
+    sectionName: string,
+  ): BattlePassStorefront {
+    shop.storefronts.push({
+      name: sectionName,
+      catalogEntries: [],
+    });
+
+    return {
+      name: sectionName,
+      catalogEntries: [],
+    };
   }
 }

@@ -18,15 +18,20 @@ export interface Shop {
 }
 
 export interface Storefronts {
-  name: StorefrontNames;
+  name: string;
   catalogEntries: Entries[];
+}
+
+export interface BattlePassStorefront {
+  name: string;
+  catalogEntries: BattlePassEntry[];
 }
 
 export interface Entries {
   offerId: string;
   devName: string;
   offerType: string;
-  prices: Prices;
+  prices: Prices[];
   categories: string[];
   dailyLimit: number;
   weeklyLimit: number;
@@ -46,11 +51,50 @@ export interface Entries {
   meta: Meta;
 }
 
+export interface BattlePassEntry {
+  offerId: string;
+  devName: string;
+  offerType: string;
+  prices: {
+    currencyType: string;
+    currencySubType: string;
+    regularPrice: number;
+    finalPrice: number;
+    saleType: string;
+    saleExpiration: string;
+    basePrice: number;
+  }[];
+  categories: string[];
+  dailyLimit: number;
+  weeklyLimit: number;
+  monthlyLimit: number;
+  appStoreId: string[];
+  requirements: {
+    requirementType: string;
+    requiredId: string;
+    minQuantity: number;
+  }[];
+  metaInfo: MetaInfo[];
+  catalogGroup: string;
+  catalogGroupPriority: number;
+  sortPriority: number;
+  title: {
+    [key: string]: string;
+  };
+  shortDescription: string;
+  description: {
+    [key: string]: string;
+  };
+  displayAssetPath: string;
+  itemGrants: ItemGrants[];
+}
+
 export interface Meta {
   NewDisplayAssetPath: string;
   LayoutId: string;
   TileSize: string;
   AnalyticOfferGroupId: string;
+  SectionId: string;
   templateId: string;
   inDate: string;
   outDate: string;
@@ -70,7 +114,7 @@ export interface MetaInfo {
 export interface GiftInfo {
   bIsEnabled: boolean;
   forcedGiftBoxTemplateId: string;
-  purchaseRequirements: Requirements;
+  purchaseRequirements: Requirements[];
   giftRecordIds: string[];
 }
 
