@@ -74,14 +74,11 @@ export default function () {
       );
 
     existingBackgrounds.forEach((existing) => {
-      const found = backgrounds.some((bg) => bg.stage === existing.stage);
-      if (!found) {
-        backgrounds.push({
-          stage: existing.stage,
-          _type: "DynamicBackground",
-          key: existing.key,
-        });
-      }
+      backgrounds.push({
+        stage: existing.stage,
+        _type: "DynamicBackground",
+        key: existing.key,
+      });
     });
 
     const request = await fetch(
@@ -90,9 +87,18 @@ export default function () {
 
     /// TODO - VaultBackgrounds (ShopBackgrounds) & Emergencynotices & Battleroyalenews
 
-    request.dynamicbackgrounds.backgrounds = {
-      backgrounds,
-      _type: "DynamicBackgroundList",
+    request.dynamicbackgrounds = {
+      "jcr:isCheckedOut": true,
+      backgrounds: {
+        backgrounds,
+        _type: "DynamicBackgroundList",
+      },
+      _title: "dynamicbackgrounds",
+      _noIndex: false,
+      "jcr:baseVersion": "a7ca237317f1e71f17852c-bccd-4be6-89a0-1bb52672a444",
+      _activeDate: new Date(),
+      lastModified: new Date(),
+      _locale: "en-US",
     };
     request.subgameinfo.battleroyale = {};
 

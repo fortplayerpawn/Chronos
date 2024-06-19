@@ -31,7 +31,8 @@ export default async function (c: Context) {
 
     const profile = await Profiles.getProfile(accountId, profileId);
 
-    if (!profile) return c.json(MCPResponses.generate({ rvn }, [], profileId));
+    if (!profile && profileId !== "athena" && profileId !== "common_core")
+      return c.json(MCPResponses.generate({ rvn }, [], profileId));
 
     const applyProfileChanges = [
       {

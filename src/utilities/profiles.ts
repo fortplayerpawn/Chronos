@@ -31,12 +31,12 @@ export default class Profiles {
       if (!profile) throw new Error(`profile with the accountId ${accountId} was not found.`);
 
       const profileOfType = profile as { [key: string]: any };
-      if (!profileOfType[type])
-        throw new Error(`profile type ${type} was not found for accountId ${accountId}.`);
+      if (!profileOfType[type]) return null;
 
       return profileOfType[type];
     } catch (error) {
       return void logger.error(`failed to get profile of type ${type}: ${error}`);
+      return null;
     }
   }
 

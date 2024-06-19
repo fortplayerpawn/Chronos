@@ -84,10 +84,10 @@ try {
   throw error;
 }
 
-while (Object.keys(DailySectionOffers).length < 6) {
-  const offer = createItemEntryTemplate();
+// while (Object.keys(DailySectionOffers).length < 6) {
+//   const offer = createItemEntryTemplate();
 
-  offer.offerId = uuid().replace(/-/gi, "");
-  offer.refundable = true;
-  offer.giftInfo.bIsEnabled = true;
-}
+//   offer.offerId = uuid().replace(/-/gi, "");
+//   offer.refundable = true;
+//   offer.giftInfo.bIsEnabled = true;
+// }

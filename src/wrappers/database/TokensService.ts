@@ -41,4 +41,30 @@ export default class TokensService {
       logger.error(`Error deleting token: ${error}`);
     }
   }
+
+  public async getTokenByType(type: string) {
+    try {
+      const token = await this.tokensRepository
+        .createQueryBuilder("tokens")
+        .where("tokens.type = :type", { type })
+        .getOne();
+      return token;
+    } catch (error) {
+      logger.error(`Error finding token: ${error}`);
+      return null;
+    }
+  }
+
+  public async getToken(token: string) {
+    try {
+      const tokenData = await this.tokensRepository
+        .createQueryBuilder("tokens")
+        .where("tokens.token = :token", { token })
+        .getOne();
+      return tokenData;
+    } catch (error) {
+      logger.error(`Error finding token: ${error}`);
+      return null;
+    }
+  }
 }

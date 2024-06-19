@@ -98,8 +98,8 @@ export default function () {
 
         if (!exchange_code)
           return c.json(
-            errors.createError(404, c.req.url, "Invalid ExchangeCode.", timestamp),
-            404,
+            errors.createError(400, c.req.url, "Missing body 'exchange_code'", timestamp),
+            400,
           );
 
         const userToken = jwt.verify(exchange_code as string, config.client_secret) as JwtPayload;
@@ -114,8 +114,33 @@ export default function () {
 
         break;
 
+      case "refresh_token":
+        const { refresh_token } = body;
+
+        if (!refresh_token)
+          return c.json(
+            errors.createError(400, c.req.url, "Missing body 'refresh_token'", timestamp),
+            400,
+          );
+
+        const cleanedRefreshToken = refresh_token.toString().replace("eg1~", "");
+
+        const refreshToken = await tokensService.getToken(cleanedRefreshToken);
+        if (!refreshToken)
+          return c.json(
+            errors.createError(400, c.req.url, "Invalid Refresh Token.", timestamp),
+            400,
+          );
+
+        user = await userService.findUserByAccountId(refreshToken.accountId);
+        if (!user)
+          return c.json(errors.createError(404, c.req.url, "Failed to find user.", timestamp), 404);
+
+        break;
+
       default:
-        return c.json(errors.createError(404, c.req.url, "Invalid Grant.", timestamp), 404);
+        logger.warn(`Missing GrantType: ${grant_type}`);
+        return c.json(errors.createError(400, c.req.url, "Invalid Grant.", timestamp), 400);
     }
 
     if (!user)
@@ -163,7 +188,7 @@ export default function () {
     if (!Authorization)
       return c.json(errors.createError(400, c.req.url, "Invalid Token.", timestamp), 400);
 
-    const decodedToken = jwt.verify(token, config.client_secret) as JwtPayload;
+    const decodedToken = jwt.verify(token.replace("eg1~", ""), config.client_secret) as JwtPayload;
 
     if (typeof decodedToken === "string" || !decodedToken)
       return c.json(errors.createError(400, c.req.url, "Invalid Token.", timestamp), 400);
@@ -208,7 +233,7 @@ export default function () {
       client_service: "fortnite",
       account_id: user.accountId,
       expires_in: Math.round((expiry.getTime() - Date.now()) / 1000),
-      expires_at: new Date(expiry.getTime() + 8 * 60 * 60 * 1000).toISOString(),
+      expires_at: new Date(expiry.getTime() + 8 * 60 * 60 * 1000),
       auth_method: decodedToken.am,
       display_name: user.username,
       app: "fortnite",
