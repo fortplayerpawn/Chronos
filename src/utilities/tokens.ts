@@ -52,6 +52,7 @@ export default class TokenUtilities {
     const token = jwt.sign(payload, config.client_secret, { expiresIn });
 
     await tokensService.create({
+      id: uuid(),
       type: type + "token",
       accountId: user.accountId,
       token,
