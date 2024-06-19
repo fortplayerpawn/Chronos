@@ -61,6 +61,7 @@ export default class Database {
         synchronize: true,
         logging: true,
         logger: new ORMLogger(),
+        migrations: [User, Account, Tokens, Timeline, Contentpages],
       });
 
       await this.connection.initialize();
