@@ -1,11 +1,414 @@
 {
-  "expiration": "2024-06-20T00:00:00.000Z",
+  "expiration": "2024-06-21T00:00:00.000Z",
   "refreshIntervalHrs": 1,
   "dailyPurchaseHrs": 24,
   "storefronts": [
     {
       "name": "BRDailyStorefront",
-      "catalogEntries": []
+      "catalogEntries": [
+        {
+          "offerId": "1a0bd064-0f83-4e70-8db4-3cf4495166be",
+          "devName": "[VIRTUAL] 1x AthenaItemWrap:Wrap_071_Pug for 300 MtxCurrency",
+          "offerType": "StaticPrice",
+          "prices": [],
+          "categories": [],
+          "dailyLimit": 0,
+          "weeklyLimit": 0,
+          "monthlyLimit": 0,
+          "refundable": true,
+          "appStoreId": [],
+          "requirements": [
+            {
+              "requirementType": "DenyOnItemOwnership",
+              "requiredId": "AthenaItemWrap:Wrap_071_Pug",
+              "minQuantity": 1
+            }
+          ],
+          "giftInfo": {
+            "bIsEnabled": true,
+            "forcedGiftBoxTemplateId": "",
+            "purchaseRequirements": [
+              {
+                "requirementType": "DenyOnItemOwnership",
+                "requiredId": "AthenaItemWrap:Wrap_071_Pug",
+                "minQuantity": 1
+              }
+            ],
+            "giftRecordIds": []
+          },
+          "matchFilter": "",
+          "filterWeight": 0,
+          "metaInfo": [
+            {
+              "key": "DisplayAssetPath",
+              "value": "/Game/Catalog/DisplayAssets/DA_Daily_Wrap_071_Pug.DA_Daily_Wrap_071_Pug"
+            },
+            {
+              "key": "NewDisplayAssetPath",
+              "value": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_Wrap_071_Pug.DAv2_Featured_DAv2_Wrap_071_Pug"
+            },
+            {
+              "key": "TileSize",
+              "value": "Normal"
+            },
+            {
+              "key": "SectionId",
+              "value": "Daily"
+            }
+          ],
+          "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_Wrap_071_Pug.DA_Daily_Wrap_071_Pug",
+          "itemGrants": [
+            {
+              "templateId": "AthenaItemWrap:Wrap_071_Pug",
+              "quantity": 1
+            }
+          ],
+          "additionalGrants": [],
+          "sortPriority": 0,
+          "catalogGroupPriority": 0,
+          "meta": {
+            "NewDisplayAssetPath": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_Wrap_071_Pug.DAv2_Featured_DAv2_Wrap_071_Pug",
+            "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_Wrap_071_Pug.DA_Daily_Wrap_071_Pug",
+            "SectionId": "Daily",
+            "TileSize": "Normal"
+          }
+        },
+        {
+          "offerId": "8f652812-8ed2-40f5-8720-f232174d28ca",
+          "devName": "[VIRTUAL] 1x AthenaGlider:Glider_ID_083_DarkBomber for 1200 MtxCurrency",
+          "offerType": "StaticPrice",
+          "prices": [],
+          "categories": [],
+          "dailyLimit": 0,
+          "weeklyLimit": 0,
+          "monthlyLimit": 0,
+          "refundable": true,
+          "appStoreId": [],
+          "requirements": [
+            {
+              "requirementType": "DenyOnItemOwnership",
+              "requiredId": "AthenaGlider:Glider_ID_083_DarkBomber",
+              "minQuantity": 1
+            }
+          ],
+          "giftInfo": {
+            "bIsEnabled": true,
+            "forcedGiftBoxTemplateId": "",
+            "purchaseRequirements": [
+              {
+                "requirementType": "DenyOnItemOwnership",
+                "requiredId": "AthenaGlider:Glider_ID_083_DarkBomber",
+                "minQuantity": 1
+              }
+            ],
+            "giftRecordIds": []
+          },
+          "matchFilter": "",
+          "filterWeight": 0,
+          "metaInfo": [
+            {
+              "key": "DisplayAssetPath",
+              "value": "/Game/Catalog/DisplayAssets/DA_Daily_Glider_ID_083_DarkBomber.DA_Daily_Glider_ID_083_DarkBomber"
+            },
+            {
+              "key": "NewDisplayAssetPath",
+              "value": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_Glider_ID_083_DarkBomber.DAv2_Featured_DAv2_Glider_ID_083_DarkBomber"
+            },
+            {
+              "key": "TileSize",
+              "value": "Normal"
+            },
+            {
+              "key": "SectionId",
+              "value": "Daily"
+            }
+          ],
+          "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_Glider_ID_083_DarkBomber.DA_Daily_Glider_ID_083_DarkBomber",
+          "itemGrants": [
+            {
+              "templateId": "AthenaGlider:Glider_ID_083_DarkBomber",
+              "quantity": 1
+            }
+          ],
+          "additionalGrants": [],
+          "sortPriority": 0,
+          "catalogGroupPriority": 0,
+          "meta": {
+            "NewDisplayAssetPath": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_Glider_ID_083_DarkBomber.DAv2_Featured_DAv2_Glider_ID_083_DarkBomber",
+            "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_Glider_ID_083_DarkBomber.DA_Daily_Glider_ID_083_DarkBomber",
+            "SectionId": "Daily",
+            "TileSize": "Normal"
+          }
+        },
+        {
+          "offerId": "d25d5227-2edc-49bb-986e-cd94a7e5efcf",
+          "devName": "[VIRTUAL] 1x AthenaGlider:Glider_ID_153_Banner for 500 MtxCurrency",
+          "offerType": "StaticPrice",
+          "prices": [],
+          "categories": [],
+          "dailyLimit": 0,
+          "weeklyLimit": 0,
+          "monthlyLimit": 0,
+          "refundable": true,
+          "appStoreId": [],
+          "requirements": [
+            {
+              "requirementType": "DenyOnItemOwnership",
+              "requiredId": "AthenaGlider:Glider_ID_153_Banner",
+              "minQuantity": 1
+            }
+          ],
+          "giftInfo": {
+            "bIsEnabled": true,
+            "forcedGiftBoxTemplateId": "",
+            "purchaseRequirements": [
+              {
+                "requirementType": "DenyOnItemOwnership",
+                "requiredId": "AthenaGlider:Glider_ID_153_Banner",
+                "minQuantity": 1
+              }
+            ],
+            "giftRecordIds": []
+          },
+          "matchFilter": "",
+          "filterWeight": 0,
+          "metaInfo": [
+            {
+              "key": "DisplayAssetPath",
+              "value": "/Game/Catalog/DisplayAssets/DA_Daily_Glider_ID_153_Banner.DA_Daily_Glider_ID_153_Banner"
+            },
+            {
+              "key": "NewDisplayAssetPath",
+              "value": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_Glider_ID_153_Banner.DAv2_Featured_DAv2_Glider_ID_153_Banner"
+            },
+            {
+              "key": "TileSize",
+              "value": "Normal"
+            },
+            {
+              "key": "SectionId",
+              "value": "Daily"
+            }
+          ],
+          "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_Glider_ID_153_Banner.DA_Daily_Glider_ID_153_Banner",
+          "itemGrants": [
+            {
+              "templateId": "AthenaGlider:Glider_ID_153_Banner",
+              "quantity": 1
+            }
+          ],
+          "additionalGrants": [],
+          "sortPriority": 0,
+          "catalogGroupPriority": 0,
+          "meta": {
+            "NewDisplayAssetPath": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_Glider_ID_153_Banner.DAv2_Featured_DAv2_Glider_ID_153_Banner",
+            "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_Glider_ID_153_Banner.DA_Daily_Glider_ID_153_Banner",
+            "SectionId": "Daily",
+            "TileSize": "Normal"
+          }
+        },
+        {
+          "offerId": "d009057c-6cb9-4d2a-a9ed-56f191853a96",
+          "devName": "[VIRTUAL] 1x AthenaCharacter:CID_149_Athena_Commando_F_SoccerGirlB for 1200 MtxCurrency",
+          "offerType": "StaticPrice",
+          "prices": [],
+          "categories": [],
+          "dailyLimit": 0,
+          "weeklyLimit": 0,
+          "monthlyLimit": 0,
+          "refundable": true,
+          "appStoreId": [],
+          "requirements": [
+            {
+              "requirementType": "DenyOnItemOwnership",
+              "requiredId": "AthenaCharacter:CID_149_Athena_Commando_F_SoccerGirlB",
+              "minQuantity": 1
+            }
+          ],
+          "giftInfo": {
+            "bIsEnabled": true,
+            "forcedGiftBoxTemplateId": "",
+            "purchaseRequirements": [
+              {
+                "requirementType": "DenyOnItemOwnership",
+                "requiredId": "AthenaCharacter:CID_149_Athena_Commando_F_SoccerGirlB",
+                "minQuantity": 1
+              }
+            ],
+            "giftRecordIds": []
+          },
+          "matchFilter": "",
+          "filterWeight": 0,
+          "metaInfo": [
+            {
+              "key": "DisplayAssetPath",
+              "value": "/Game/Catalog/DisplayAssets/DA_Daily_CID_149_Athena_Commando_F_SoccerGirlB.DA_Daily_CID_149_Athena_Commando_F_SoccerGirlB"
+            },
+            {
+              "key": "NewDisplayAssetPath",
+              "value": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_CID_149_Athena_Commando_F_SoccerGirlB.DAv2_Featured_DAv2_CID_149_Athena_Commando_F_SoccerGirlB"
+            },
+            {
+              "key": "TileSize",
+              "value": "Normal"
+            },
+            {
+              "key": "SectionId",
+              "value": "Daily"
+            }
+          ],
+          "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_CID_149_Athena_Commando_F_SoccerGirlB.DA_Daily_CID_149_Athena_Commando_F_SoccerGirlB",
+          "itemGrants": [
+            {
+              "templateId": "AthenaCharacter:CID_149_Athena_Commando_F_SoccerGirlB",
+              "quantity": 1
+            }
+          ],
+          "additionalGrants": [],
+          "sortPriority": 0,
+          "catalogGroupPriority": 0,
+          "meta": {
+            "NewDisplayAssetPath": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_CID_149_Athena_Commando_F_SoccerGirlB.DAv2_Featured_DAv2_CID_149_Athena_Commando_F_SoccerGirlB",
+            "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_CID_149_Athena_Commando_F_SoccerGirlB.DA_Daily_CID_149_Athena_Commando_F_SoccerGirlB",
+            "SectionId": "Daily",
+            "TileSize": "Normal"
+          }
+        },
+        {
+          "offerId": "74ac255f-23d6-4ae5-b151-9a416ea888ac",
+          "devName": "[VIRTUAL] 1x AthenaCharacter:CID_077_Athena_Commando_M_Sup for 1200 MtxCurrency",
+          "offerType": "StaticPrice",
+          "prices": [],
+          "categories": [],
+          "dailyLimit": 0,
+          "weeklyLimit": 0,
+          "monthlyLimit": 0,
+          "refundable": true,
+          "appStoreId": [],
+          "requirements": [
+            {
+              "requirementType": "DenyOnItemOwnership",
+              "requiredId": "AthenaCharacter:CID_077_Athena_Commando_M_Sup",
+              "minQuantity": 1
+            }
+          ],
+          "giftInfo": {
+            "bIsEnabled": true,
+            "forcedGiftBoxTemplateId": "",
+            "purchaseRequirements": [
+              {
+                "requirementType": "DenyOnItemOwnership",
+                "requiredId": "AthenaCharacter:CID_077_Athena_Commando_M_Sup",
+                "minQuantity": 1
+              }
+            ],
+            "giftRecordIds": []
+          },
+          "matchFilter": "",
+          "filterWeight": 0,
+          "metaInfo": [
+            {
+              "key": "DisplayAssetPath",
+              "value": "/Game/Catalog/DisplayAssets/DA_Daily_CID_077_Athena_Commando_M_Sup.DA_Daily_CID_077_Athena_Commando_M_Sup"
+            },
+            {
+              "key": "NewDisplayAssetPath",
+              "value": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_CID_077_Athena_Commando_M_Sup.DAv2_Featured_DAv2_CID_077_Athena_Commando_M_Sup"
+            },
+            {
+              "key": "TileSize",
+              "value": "Normal"
+            },
+            {
+              "key": "SectionId",
+              "value": "Daily"
+            }
+          ],
+          "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_CID_077_Athena_Commando_M_Sup.DA_Daily_CID_077_Athena_Commando_M_Sup",
+          "itemGrants": [
+            {
+              "templateId": "AthenaCharacter:CID_077_Athena_Commando_M_Sup",
+              "quantity": 1
+            }
+          ],
+          "additionalGrants": [],
+          "sortPriority": 0,
+          "catalogGroupPriority": 0,
+          "meta": {
+            "NewDisplayAssetPath": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_CID_077_Athena_Commando_M_Sup.DAv2_Featured_DAv2_CID_077_Athena_Commando_M_Sup",
+            "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_CID_077_Athena_Commando_M_Sup.DA_Daily_CID_077_Athena_Commando_M_Sup",
+            "SectionId": "Daily",
+            "TileSize": "Normal"
+          }
+        },
+        {
+          "offerId": "034da591-0c13-499d-8fac-2054346eecab",
+          "devName": "[VIRTUAL] 1x AthenaCharacter:CID_122_Athena_Commando_M_Metal for 1200 MtxCurrency",
+          "offerType": "StaticPrice",
+          "prices": [],
+          "categories": [],
+          "dailyLimit": 0,
+          "weeklyLimit": 0,
+          "monthlyLimit": 0,
+          "refundable": true,
+          "appStoreId": [],
+          "requirements": [
+            {
+              "requirementType": "DenyOnItemOwnership",
+              "requiredId": "AthenaCharacter:CID_122_Athena_Commando_M_Metal",
+              "minQuantity": 1
+            }
+          ],
+          "giftInfo": {
+            "bIsEnabled": true,
+            "forcedGiftBoxTemplateId": "",
+            "purchaseRequirements": [
+              {
+                "requirementType": "DenyOnItemOwnership",
+                "requiredId": "AthenaCharacter:CID_122_Athena_Commando_M_Metal",
+                "minQuantity": 1
+              }
+            ],
+            "giftRecordIds": []
+          },
+          "matchFilter": "",
+          "filterWeight": 0,
+          "metaInfo": [
+            {
+              "key": "DisplayAssetPath",
+              "value": "/Game/Catalog/DisplayAssets/DA_Daily_CID_122_Athena_Commando_M_Metal.DA_Daily_CID_122_Athena_Commando_M_Metal"
+            },
+            {
+              "key": "NewDisplayAssetPath",
+              "value": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_CID_122_Athena_Commando_M_Metal.DAv2_Featured_DAv2_CID_122_Athena_Commando_M_Metal"
+            },
+            {
+              "key": "TileSize",
+              "value": "Normal"
+            },
+            {
+              "key": "SectionId",
+              "value": "Daily"
+            }
+          ],
+          "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_CID_122_Athena_Commando_M_Metal.DA_Daily_CID_122_Athena_Commando_M_Metal",
+          "itemGrants": [
+            {
+              "templateId": "AthenaCharacter:CID_122_Athena_Commando_M_Metal",
+              "quantity": 1
+            }
+          ],
+          "additionalGrants": [],
+          "sortPriority": 0,
+          "catalogGroupPriority": 0,
+          "meta": {
+            "NewDisplayAssetPath": "/Game/Catalog/NewDisplayAssets/DAv2_Featured_DAv2_CID_122_Athena_Commando_M_Metal.DAv2_Featured_DAv2_CID_122_Athena_Commando_M_Metal",
+            "displayAssetPath": "/Game/Catalog/DisplayAssets/DA_Daily_CID_122_Athena_Commando_M_Metal.DA_Daily_CID_122_Athena_Commando_M_Metal",
+            "SectionId": "Daily",
+            "TileSize": "Normal"
+          }
+        }
+      ]
     },
     {
       "name": "BRWeeklyStorefront",

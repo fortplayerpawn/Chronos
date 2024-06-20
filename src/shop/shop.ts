@@ -7,6 +7,10 @@ import { ShopHelper } from "./helpers/shophelper";
 import path from "node:path";
 import { createBattlePassEntryTemplate, createItemEntryTemplate } from "./helpers/template";
 import { v4 as uuid } from "uuid";
+import getRandomWeightedIndex from "./functions/getRandomWeightedIndex";
+import { itemTypeProbabilities, rarityProbabilities } from "../constants/probabilities";
+import { setDisplayAsset, setNewDisplayAssetPath } from "./helpers/displayAssets";
+import { getPrice } from "./helpers/itemprices";
 
 const request = await fetch("https://fortnite-api.com/v2/cosmetics/br").then(
   async (res) => (await res.json()) as any,
@@ -27,7 +31,8 @@ response.map(async (json) => {
     !json.introduction ||
     json.introduction.backendValue > config.currentSeason ||
     json.introduction.backendValue === 0 ||
-    json.set === null
+    json.set === null ||
+    !json.shopHistory
   )
     return;
 
@@ -35,7 +40,11 @@ response.map(async (json) => {
 
   const itemType = json.type && typeof json.type === "object" ? json.type.backendValue : null;
 
-  if (itemType !== null) json.type.backendValue = cosmeticTypes[itemType];
+  if (itemType && cosmeticTypes[itemType] !== undefined) {
+    json.type.backendValue = cosmeticTypes[itemType];
+  }
+
+  if (!itemType) return;
 
   if (!sets[json.set.backendValue]) {
     sets[json.set.backendValue] = {
@@ -49,9 +58,9 @@ response.map(async (json) => {
   items[json.id] = json;
 });
 
-const dailySection = ShopHelper.createStorefront(shop, "BRDailyStorefront");
-const weeklySection = ShopHelper.createStorefront(shop, "BRWeeklyStorefront");
-const battlePass = ShopHelper.createBattlePassStorefront(shop, `BRSeason${config.currentSeason}`);
+ShopHelper.createStorefront(shop, "BRDailyStorefront");
+ShopHelper.createStorefront(shop, "BRWeeklyStorefront");
+ShopHelper.createBattlePassStorefront(shop, `BRSeason${config.currentSeason}`);
 
 try {
   const BRSeasonJSON = await Bun.file(
@@ -76,7 +85,6 @@ try {
     );
     if (seasonStorefront) {
       seasonStorefront.catalogEntries.push(battlepassOffer);
-      battlePass.catalogEntries.push(battlepassOffer);
     }
   });
 } catch (error) {
@@ -84,10 +92,98 @@ try {
   throw error;
 }
 
-// while (Object.keys(DailySectionOffers).length < 6) {
-//   const offer = createItemEntryTemplate();
+while (Object.keys(DailySectionOffers).length < 6) {
+  let randomIndex: number = getRandomWeightedIndex(itemTypeProbabilities);
+  const cosmeticType = cosmeticTypes[randomIndex];
 
-//   offer.offerId = uuid().replace(/-/gi, "");
-//   offer.refundable = true;
-//   offer.giftInfo.bIsEnabled = true;
-// }
+  randomIndex = getRandomWeightedIndex(rarityProbabilities);
+
+  const keys = Object.keys(items);
+
+  if (keys.length === 0) continue;
+
+  let randomKey: string;
+  let randomItem: any;
+
+  do {
+    randomKey = keys[Math.floor(Math.random() * keys.length)];
+    randomItem = items[randomKey];
+  } while ( // Blocked items from being generated.
+    randomItem.type.backendValue === "AthenaBackpack" ||
+    randomItem.type.backendValue === "AthenaSkyDiveContrail" ||
+    randomItem.type.backendValue === "AthenaMusicPack" ||
+    randomItem.type.backendValue === "AthenaToy"
+  );
+
+  const entry = createItemEntryTemplate();
+
+  entry.offerId = uuid();
+  entry.offerType = "StaticPrice";
+
+  if (!randomItem.displayAssetPath)
+    randomItem.displayAssetPath = setDisplayAsset(`DA_Daily_${randomItem.id}`);
+
+  entry.displayAssetPath = randomItem.displayAssetPath.includes("DA_Daily")
+    ? randomItem.displayAssetPath
+    : setDisplayAsset(`DA_Daily_${randomItem.id}`);
+
+  entry.metaInfo.push({ key: "DisplayAssetPath", value: entry.displayAssetPath });
+  entry.metaInfo.push({
+    key: "NewDisplayAssetPath",
+    value: setNewDisplayAssetPath(`DAv2_${randomItem.id}`),
+  });
+  entry.metaInfo.push({ key: "TileSize", value: "Normal" });
+  entry.metaInfo.push({ key: "SectionId", value: "Daily" });
+
+  entry.meta.NewDisplayAssetPath = setNewDisplayAssetPath(`DAv2_${randomItem.id}`);
+  entry.meta.displayAssetPath = entry.displayAssetPath;
+  entry.meta.SectionId = "Daily";
+  entry.meta.TileSize = "Normal";
+
+  entry.requirements.push({
+    requirementType: "DenyOnItemOwnership",
+    requiredId: `${randomItem.type.backendValue}:${randomItem.id}`,
+    minQuantity: 1,
+  });
+
+  entry.refundable = true;
+  entry.giftInfo.bIsEnabled = true;
+  entry.giftInfo.forcedGiftBoxTemplateId = "";
+  entry.giftInfo.purchaseRequirements = entry.requirements;
+  entry.giftInfo.giftRecordIds = [];
+
+  const price = getPrice(randomItem);
+
+  if (!price) continue;
+
+  for (const prices of entry.prices) {
+    prices.currencySubType = "Currency";
+    prices.currencyType = "MtxCurrency";
+    prices.dynamicRegularPrice = -1;
+    prices.saleExpiration = "9999-12-31T23:59:59.999Z";
+    prices.basePrice = price;
+    prices.regularPrice = price;
+    prices.finalPrice = price;
+  }
+
+  entry.devName = `[VIRTUAL] 1x ${randomItem.type.backendValue}:${randomItem.id} for ${price} MtxCurrency`;
+
+  entry.itemGrants.push({
+    templateId: `${randomItem.type.backendValue}:${randomItem.id}`,
+    quantity: 1,
+  });
+
+  const dailyStorefront = shop.storefronts.find(
+    (storefront) => storefront.name === "BRDailyStorefront",
+  );
+  if (dailyStorefront) {
+    dailyStorefront.catalogEntries.push(entry);
+  }
+
+  DailySectionOffers[entry.offerId] = {
+    templateId: `${randomItem.type.backendValue}:${randomItem.id}`,
+    quantity: 1,
+  };
+}
+
+await Bun.write(path.join(__dirname, "out.json"), JSON.stringify(shop, null, 2));
