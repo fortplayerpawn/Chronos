@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-cache": "^4.2.5",
+    "@types/node-cron": "^3.0.11",
     "@types/pg": "^8.11.6",
     "@types/uuid": "^9.0.8",
     "axios": "^1.7.2",
@@ -20,6 +21,7 @@
     "hono": "4.2.2",
     "jsonwebtoken": "^9.0.2",
     "node-cache": "^5.1.2",
+    "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "pg": "^8.12.0",
     "typeorm": "^0.3.20",

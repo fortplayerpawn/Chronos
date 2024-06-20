@@ -8,6 +8,9 @@ import path from "node:path";
 import AccountService from "./wrappers/database/AccountService";
 import TokensService from "./wrappers/database/TokensService";
 import ContentPagesServie from "./wrappers/database/ContentPagesService";
+import { ShopGenerator } from "./shop/shop";
+import { ShopHelper } from "./shop/helpers/shophelper";
+import rotate from "./shop/rotate/autorotate";
 
 export const app = new Hono({ strict: false });
 export const logger = new Logger(LogLevel.DEBUG);
@@ -34,7 +37,9 @@ await loadRoutes(path.join(__dirname, "routes"), app);
 
 import("./bot/deployment");
 import("./bot/bot");
-import("./shop/shop");
+
+await ShopGenerator.generate();
+rotate();
 
 Bun.serve({
   port: config.port,

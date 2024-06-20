@@ -27,25 +27,32 @@ export function createBattlePassEntryTemplate(): BattlePassEntry {
 export function createItemEntryTemplate(): Entries {
   return {
     offerId: "",
-    devName: "",
     offerType: "",
-    prices: [],
-    categories: [],
-    dailyLimit: 0,
-    weeklyLimit: 0,
-    monthlyLimit: 0,
-    refundable: false,
-    appStoreId: [],
-    requirements: [],
-    giftInfo: {} as GiftInfo,
-    matchFilter: "",
-    filterWeight: 0,
-    metaInfo: [],
-    displayAssetPath: "",
+    devName: "",
     itemGrants: [],
-    additionalGrants: [],
+    requirements: [],
+    categories: [],
+    metaInfo: [],
+    meta: {} as Meta,
+    giftInfo: {} as GiftInfo,
+    prices: [],
+    bannerOverride: "",
+    displayAssetPath: "",
+    refundable: false,
+    title: "",
+    description: "",
+    shortDescription: "",
+    appStoreId: [],
+    fulfillmentIds: [],
+    dailyLimit: -1,
+    weeklyLimit: -1,
+    monthlyLimit: -1,
     sortPriority: 0,
     catalogGroupPriority: 0,
-    meta: {} as Meta,
+    filterWeight: 0,
   };
+}
+
+export function test() {
+  return {};
 }

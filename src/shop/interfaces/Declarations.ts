@@ -29,26 +29,29 @@ export interface BattlePassStorefront {
 
 export interface Entries {
   offerId: string;
-  devName: string;
   offerType: string;
-  prices: Prices[];
+  devName: string;
+  itemGrants: ItemGrants[];
+  requirements: Requirements[];
   categories: string[];
+  metaInfo: MetaInfo[];
+  meta: Meta;
+  giftInfo: GiftInfo;
+  prices: Prices[];
+  bannerOverride: string;
+  displayAssetPath: string;
+  refundable: boolean;
+  title: string;
+  description: string;
+  shortDescription: string;
+  appStoreId: string[];
+  fulfillmentIds: any[];
   dailyLimit: number;
   weeklyLimit: number;
   monthlyLimit: number;
-  refundable: boolean;
-  appStoreId: string[];
-  requirements: Requirements[];
-  giftInfo: GiftInfo;
-  matchFilter: string;
-  filterWeight: number;
-  metaInfo: MetaInfo[];
-  displayAssetPath: string;
-  itemGrants: ItemGrants[];
-  additionalGrants: ItemGrants[]; // idk
   sortPriority: number;
   catalogGroupPriority: number;
-  meta: Meta;
+  filterWeight: number;
 }
 
 export interface BattlePassEntry {
