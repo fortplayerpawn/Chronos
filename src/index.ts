@@ -7,10 +7,10 @@ import { loadRoutes } from "./utilities/routing";
 import path from "node:path";
 import AccountService from "./wrappers/database/AccountService";
 import TokensService from "./wrappers/database/TokensService";
-import ContentPagesServie from "./wrappers/database/ContentPagesService";
 import { ShopGenerator } from "./shop/shop";
 import { ShopHelper } from "./shop/helpers/shophelper";
 import rotate from "./shop/rotate/autorotate";
+import ProfilesService from "./wrappers/database/ProfilesService";
 
 export const app = new Hono({ strict: false });
 export const logger = new Logger(LogLevel.DEBUG);
@@ -31,7 +31,7 @@ db.connect();
 export const userService = new UserService(db);
 export const accountService = new AccountService(db);
 export const tokensService = new TokensService(db);
-export const contentpagesService = new ContentPagesServie(db);
+export const profilesService = new ProfilesService(db);
 
 await loadRoutes(path.join(__dirname, "routes"), app);
 

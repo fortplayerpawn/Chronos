@@ -1,13 +1,13 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Contentpages extends BaseEntity {
+export class Profiles extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Column()
-  stage!: string;
+  type!: string;
 
-  @Column()
-  key!: string; /// type Keys = "lobby" | "vault"
+  @Column({ type: "json", nullable: false, default: {} })
+  profile!: object;
 }

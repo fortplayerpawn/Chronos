@@ -2,7 +2,7 @@ import type { Context } from "hono";
 import { userService, accountService, logger } from "..";
 import errors from "../utilities/errors";
 import type { ProfileId } from "../utilities/responses";
-import Profiles from "../utilities/profiles";
+import ProfileHelper from "../utilities/profiles";
 import MCPResponses from "../utilities/responses";
 
 export default async function (c: Context) {
@@ -29,7 +29,7 @@ export default async function (c: Context) {
       );
     }
 
-    const profile = await Profiles.getProfile(accountId, profileId);
+    const profile = await ProfileHelper.getProfile(profileId);
 
     if (!profile && profileId !== "athena" && profileId !== "common_core")
       return c.json(MCPResponses.generate({ rvn }, [], profileId));

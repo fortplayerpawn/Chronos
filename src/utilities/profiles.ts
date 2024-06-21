@@ -4,12 +4,12 @@ import path from "node:path";
 import { v4 as uuid } from "uuid";
 import type { BattlePass, Stats } from "../tables/account";
 import type { ProfileId } from "./responses";
-import { accountService, logger } from "..";
+import { accountService, logger, profilesService } from "..";
 
 type profiles = "athena" | "common_core";
 const profileCache: { [accountId: string]: { [type in ProfileId]?: Promise<any> } } = {};
 
-export default class Profiles {
+export default class ProfileHelper {
   static async createProfile(user: Partial<User>, profile: profiles) {
     const profile_template = JSON.parse(
       await fs.readFile(path.join(__dirname, "..", "memory", `${profile}.json`), "utf-8"),
@@ -24,16 +24,13 @@ export default class Profiles {
     return profile_template;
   }
 
-  static async getProfile(accountId: string, type: ProfileId) {
+  static async getProfile(type: ProfileId | string) {
     try {
-      const profile = await accountService.findUserByAccountId(accountId);
+      const profile = await profilesService.findByType(type);
 
-      if (!profile) throw new Error(`profile with the accountId ${accountId} was not found.`);
+      if (!profile) return null;
 
-      const profileOfType = profile as { [key: string]: any };
-      if (!profileOfType[type]) return null;
-
-      return profileOfType[type];
+      return profile.profile as any;
     } catch (error) {
       return void logger.error(`failed to get profile of type ${type}: ${error}`);
       return null;

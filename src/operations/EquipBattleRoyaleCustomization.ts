@@ -2,9 +2,10 @@ import type { Context } from "hono";
 import errors from "../utilities/errors";
 import type { ProfileId } from "../utilities/responses";
 import { accountService, logger, userService } from "..";
-import Profiles from "../utilities/profiles";
+import ProfileHelper from "../utilities/profiles";
 import MCPResponses from "../utilities/responses";
 import { Account } from "../tables/account";
+import { Profiles } from "../tables/profiles";
 
 export default async function (c: Context) {
   const startTimestamp = Date.now();
@@ -23,7 +24,7 @@ export default async function (c: Context) {
     let [user, account, profile] = await Promise.all([
       userService.findUserByAccountId(accountId),
       accountService.findUserByAccountId(accountId),
-      Profiles.getProfile(accountId, profileId),
+      ProfileHelper.getProfile(profileId),
     ]);
 
     if (!user || !account || !profile) {
@@ -100,10 +101,10 @@ export default async function (c: Context) {
       profile.updatedAt = new Date().toISOString();
     }
 
-    await Account.createQueryBuilder()
-      .update(Account)
-      .set({ athena: profile })
-      .where("accountId = :accountId", { accountId: user.accountId })
+    await Profiles.createQueryBuilder()
+      .update()
+      .set({ profile })
+      .where("type = :type", { type: profileId })
       .execute();
 
     const endTimestamp = Date.now();

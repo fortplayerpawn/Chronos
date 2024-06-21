@@ -5,7 +5,7 @@ import { User } from "../tables/user";
 import { Account } from "../tables/account";
 import { Tokens } from "../tables/tokens";
 import { Timeline } from "../tables/timeline";
-import { Contentpages } from "../tables/contentpages";
+import { Profiles } from "../tables/profiles";
 
 interface DatabaseConfig {
   connectionString?: string;
@@ -57,11 +57,11 @@ export default class Database {
         type: "postgres",
         url: this.dbConfig.connectionString || config.databaseUrl,
         ssl: this.dbConfig.ssl ? { rejectUnauthorized: false } : false,
-        entities: [User, Account, Tokens, Timeline, Contentpages],
+        entities: [User, Account, Tokens, Timeline, Profiles],
         synchronize: true,
         logging: true,
         logger: new ORMLogger(),
-        migrations: [User, Account, Tokens, Timeline, Contentpages],
+        migrations: [User, Account, Tokens, Timeline, Profiles],
       });
 
       await this.connection.initialize();

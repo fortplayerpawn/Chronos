@@ -9,8 +9,9 @@ import BaseCommand from "../base/Base";
 import { accountService, userService } from "../..";
 import path from "node:path";
 import { Account } from "../../tables/account";
-import Profiles from "../../utilities/profiles";
+import ProfileHelper from "../../utilities/profiles";
 import { User } from "../../tables/user";
+import { Profiles } from "../../tables/profiles";
 
 export default class GrantallCommand extends BaseCommand {
   data = {
@@ -82,7 +83,7 @@ export default class GrantallCommand extends BaseCommand {
       return await interaction.editReply({ embeds: [embed] });
     }
 
-    const athena = await Profiles.getProfile(user.accountId, "athena");
+    const athena = await ProfileHelper.getProfile("athena");
 
     if (!athena) {
       const embed = new EmbedBuilder()
@@ -104,10 +105,10 @@ export default class GrantallCommand extends BaseCommand {
       .setColor("Blurple")
       .setTimestamp();
 
-    await Account.createQueryBuilder()
-      .update(Account)
-      .set({ athena })
-      .where("accountId = :accountId", { accountId: user.accountId })
+    await Profiles.createQueryBuilder()
+      .update(Profiles)
+      .set({ profile: athena })
+      .where("type = :type", { type: "athena" })
       .execute();
 
     await User.createQueryBuilder()

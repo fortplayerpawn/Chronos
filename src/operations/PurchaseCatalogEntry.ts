@@ -2,13 +2,14 @@ import type { Context } from "hono";
 import type { ProfileId } from "../utilities/responses";
 import errors from "../utilities/errors";
 import { accountService, logger, userService } from "..";
-import Profiles from "../utilities/profiles";
+import ProfileHelper from "../utilities/profiles";
 import { ShopHelper } from "../shop/helpers/shophelper";
 import type { Entries } from "../shop/interfaces/Declarations";
 import CreateProfileItem from "../utilities/CreateProfileItem";
 import { Account } from "../tables/account";
 import uaparser from "../utilities/uaparser";
 import MCPResponses from "../utilities/responses";
+import { Profiles } from "../tables/profiles";
 
 export default async function (c: Context) {
   const accountId = c.req.param("accountId");
@@ -48,7 +49,7 @@ export default async function (c: Context) {
     );
   }
 
-  const profile = await Profiles.getProfile(accountId, profileId);
+  const profile = await ProfileHelper.getProfile(profileId);
 
   if (!profile)
     return c.json(
@@ -71,7 +72,7 @@ export default async function (c: Context) {
 
   let owned: boolean = false;
 
-  const athena = await Profiles.getProfile(accountId, "athena");
+  const athena = await ProfileHelper.getProfile("athena");
 
   if (!athena)
     return c.json(
@@ -209,10 +210,16 @@ export default async function (c: Context) {
     profile.updatedAt = new Date().toISOString();
   }
 
-  await Account.createQueryBuilder()
-    .update(Account)
-    .set({ common_core: profile, athena })
-    .where("accountId = :accountId", { accountId: user.accountId })
+  await Profiles.createQueryBuilder()
+    .update()
+    .set({ profile })
+    .where("type = :type", { type: profileId })
+    .execute();
+
+  await Profiles.createQueryBuilder()
+    .update()
+    .set({ profile: athena })
+    .where("type = :type", { type: "athena" })
     .execute();
 
   const profileRevision = uahelper!.buildUpdate >= "12.20" ? athena.commandRevision : athena.rvn;

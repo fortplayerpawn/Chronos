@@ -6,9 +6,9 @@ import {
   type CacheType,
 } from "discord.js";
 import BaseCommand from "../base/Base";
-import { accountService, logger, userService } from "../..";
+import { accountService, logger, profilesService, userService } from "../..";
 import { v4 as uuid } from "uuid";
-import Profiles from "../../utilities/profiles";
+import ProfileHelper from "../../utilities/profiles";
 
 export default class RegisterCommand extends BaseCommand {
   data = {
@@ -71,7 +71,7 @@ export default class RegisterCommand extends BaseCommand {
     const roles = Roles.cache.map((role) => role.id);
 
     try {
-      userService
+      await userService
         .create({
           email: email as string,
           username: interaction.user.username as string,
@@ -86,20 +86,28 @@ export default class RegisterCommand extends BaseCommand {
           if (!newUser) return;
 
           const promises = [
-            Profiles.createProfile(newUser, "athena"),
-            Profiles.createProfile(newUser, "common_core"),
+            ProfileHelper.createProfile(newUser, "athena"),
+            ProfileHelper.createProfile(newUser, "common_core"),
           ];
 
           const [athena, common_core] = await Promise.all(promises);
 
-          accountService.create({
+          await accountService.create({
             accountId: newUser?.accountId,
-            athena,
-            common_core,
+
             discordId,
 
-            battlepass: Profiles.createBattlePassTemplate(),
-            stats: Profiles.createStatsTemplate(),
+            battlepass: ProfileHelper.createBattlePassTemplate(),
+            stats: ProfileHelper.createStatsTemplate(),
+          });
+
+          await profilesService.create({
+            type: "athena",
+            profile: athena,
+          });
+          await profilesService.create({
+            type: "common_core",
+            profile: common_core,
           });
         });
 

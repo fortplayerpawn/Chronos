@@ -2,7 +2,7 @@ import type { Context } from "hono";
 import type { ProfileId } from "../utilities/responses";
 import errors from "../utilities/errors";
 import { accountService, userService } from "..";
-import Profiles from "../utilities/profiles";
+import ProfileHelper from "../utilities/profiles";
 import MCPResponses from "../utilities/responses";
 
 export default async function (c: Context) {
@@ -28,7 +28,7 @@ export default async function (c: Context) {
     );
   }
 
-  const profile = await Profiles.getProfile(accountId, profileId);
+  const profile = await ProfileHelper.getProfile(profileId);
 
   if (!profile)
     return c.json(

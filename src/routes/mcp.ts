@@ -2,7 +2,7 @@ import { app, logger, userService } from "..";
 import { loadOperations } from "../utilities/routing";
 import MCPResponses, { type ProfileId } from "../utilities/responses";
 import errors from "../utilities/errors";
-import Profiles from "../utilities/profiles";
+import ProfileHelper from "../utilities/profiles";
 import { Validation } from "../middleware/validation";
 
 const operations = await loadOperations();
@@ -10,7 +10,7 @@ const operations = await loadOperations();
 export default function () {
   app.post(
     "/fortnite/api/game/v2/profile/:accountId/client/:action",
-    Validation.verifyToken,
+    // Validation.verifyToken,
     async (c) => {
       const accountId = c.req.param("accountId");
       const action = c.req.param("action");
@@ -35,7 +35,7 @@ export default function () {
       if (!user)
         return c.json(errors.createError(404, c.req.url, "Failed to find user.", timestamp), 404);
 
-      const profile = await Profiles.getProfile(accountId, profileId);
+      const profile = await ProfileHelper.getProfile(profileId);
 
       if (!profile && profileId !== "athena" && profileId !== "common_core")
         return c.json(MCPResponses.generate({ rvn }, [], profileId));

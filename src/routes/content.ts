@@ -1,6 +1,5 @@
 import axios from "axios";
-import { app, contentpagesService, logger } from "..";
-import { Contentpages } from "../tables/contentpages";
+import { app, logger } from "..";
 import errors from "../utilities/errors";
 import uaparser from "../utilities/uaparser";
 import { v4 as uuid } from "uuid";
@@ -31,56 +30,6 @@ export default function () {
         400,
       );
 
-    let existingBg = await contentpagesService.findMany(`season${uahelper.season}`, [
-      "lobby",
-      "vault",
-    ]);
-
-    const backgrounds: Background[] = [];
-
-    let existingBackground = existingBg!.find((bg) => bg.stage === `season${uahelper.season}`);
-
-    if (!existingBackground) {
-      let newBackground = new Contentpages();
-      newBackground.stage = `season${uahelper.season}`;
-      newBackground.key = "lobby";
-      await newBackground.save();
-      logger.debug(`Created background: ${newBackground.stage} - ${newBackground.key}`);
-
-      backgrounds.push({
-        stage: newBackground.stage,
-        _type: "DynamicBackground",
-        key: newBackground.key,
-      });
-
-      newBackground = new Contentpages();
-      newBackground.stage = `season${uahelper.season}`;
-      newBackground.key = "vault";
-      await newBackground.save();
-      logger.debug(`Created background: ${newBackground.stage} - ${newBackground.key}`);
-
-      backgrounds.push({
-        stage: newBackground.stage,
-        _type: "DynamicBackground",
-        key: newBackground.key,
-      });
-    }
-    const existingBackgrounds = await contentpagesService.findAll();
-
-    if (!existingBackgrounds)
-      return c.json(
-        errors.createError(400, c.req.url, "Failed to find backgrounds..", timestamp),
-        400,
-      );
-
-    existingBackgrounds.forEach((existing) => {
-      backgrounds.push({
-        stage: existing.stage,
-        _type: "DynamicBackground",
-        key: existing.key,
-      });
-    });
-
     const request = await fetch(
       "https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game",
     ).then((res) => res.json() as any);
@@ -90,7 +39,18 @@ export default function () {
     request.dynamicbackgrounds = {
       "jcr:isCheckedOut": true,
       backgrounds: {
-        backgrounds,
+        backgrounds: [
+          {
+            stage: uahelper.season === 10 ? uahelper.SeasonX : `season${uahelper.season}`,
+            _type: "DynamicBackground",
+            key: "lobby",
+          },
+          {
+            stage: uahelper.season === 10 ? uahelper.SeasonX : `season${uahelper.season}`,
+            _type: "DynamicBackground",
+            key: "vault",
+          },
+        ],
         _type: "DynamicBackgroundList",
       },
       _title: "dynamicbackgrounds",

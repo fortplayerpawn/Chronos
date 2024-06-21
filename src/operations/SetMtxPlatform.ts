@@ -2,9 +2,10 @@ import type { Context } from "hono";
 import type { ProfileId } from "../utilities/responses";
 import errors from "../utilities/errors";
 import { accountService, userService } from "..";
-import Profiles from "../utilities/profiles";
+import ProfileHelper from "../utilities/profiles";
 import MCPResponses from "../utilities/responses";
 import { Account } from "../tables/account";
+import { Profiles } from "../tables/profiles";
 
 export default async function (c: Context) {
   const accountId = c.req.param("accountId");
@@ -29,7 +30,7 @@ export default async function (c: Context) {
     );
   }
 
-  const profile = await Profiles.getProfile(accountId, profileId);
+  const profile = await ProfileHelper.getProfile(profileId);
 
   if (!profile)
     return c.json(
@@ -61,10 +62,10 @@ export default async function (c: Context) {
   profile.commandRevision += 1;
   profile.updatedAt = new Date().toISOString();
 
-  await Account.createQueryBuilder()
-    .update(Account)
-    .set({ common_core: profile })
-    .where("accountId = :accountId", { accountId: user.accountId })
+  await Profiles.createQueryBuilder()
+    .update(Profiles)
+    .set({ profile })
+    .where("type = :type", { type: profileId })
     .execute();
 
   return c.json(

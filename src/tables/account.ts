@@ -40,12 +40,6 @@ export class Account extends BaseEntity {
   discordId!: string;
 
   @Column({ type: "json", nullable: false, default: {} })
-  athena!: object;
-
-  @Column({ type: "json", nullable: false, default: {} })
-  common_core!: object;
-
-  @Column({ type: "json", nullable: false, default: {} })
   battlepass!: BattlePass;
 
   @Column({ type: "json", nullable: false, default: {} })
