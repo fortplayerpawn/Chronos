@@ -29,8 +29,6 @@ export default function () {
         400,
       );
 
-    console.log(ShopHelper.getCurrentShop());
-
     return c.json(ShopHelper.getCurrentShop());
   });
 }

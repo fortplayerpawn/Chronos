@@ -1,15 +1,29 @@
-import cron from "node-cron";
 import { logger } from "../..";
 import { ShopGenerator } from "../shop";
 
-export default function rotate() {
-  const currentDate = new Date();
+export default async function rotate(now: boolean) {
+  if (!now) {
+    const runAtMidnight = () => {
+      const currentDate = new Date();
+      const midnightUTC = new Date(
+        currentDate.getUTCFullYear(),
+        currentDate.getUTCMonth(),
+        currentDate.getUTCDate() + 1,
+        0,
+        0,
+        0,
+        0,
+      );
 
-  currentDate.setUTCHours(0, 0, 0, 0);
-  currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+      const delayMillis = midnightUTC.getTime() - currentDate.getTime();
 
-  const date = currentDate.toISOString();
-  logger.info(`A new storefront gets generated at ${date}`);
+      setTimeout(async () => {
+        await ShopGenerator.generate();
 
-  cron.schedule("0 0 * * *", async () => await ShopGenerator.generate());
+        runAtMidnight();
+      }, delayMillis);
+    };
+
+    runAtMidnight();
+  } else await ShopGenerator.generate();
 }
