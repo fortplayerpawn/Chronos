@@ -7,14 +7,16 @@
 
 - [ ] Vbucks on kill/win
 - [ ] Easy setup
-- [ ] Auto shop
+- [x] Auto shop
 - [ ] Battle Pass & Levelling Up
 - [ ] Challenges (Quests)
 - [ ] Friends
 - [ ] Matchmaker & XMPP
 - [ ] Parties (V1 & V2)
 - [ ] Daily rewards
-- [ ] Gifting & Purchasing from item shop
+- [ ] Gifting
+- [x] Purchasing from item shop
+- [ ] Refunding
 - [ ] Save the World
 - [ ] Arena
 - [ ] Tournaments
