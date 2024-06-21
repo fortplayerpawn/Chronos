@@ -28,12 +28,6 @@ export interface BattlePass {
   xp: number;
 }
 
-interface Season {
-  season: number;
-  battlepass: BattlePass;
-  stats: Stats;
-}
-
 @Entity()
 export class Account extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
@@ -51,6 +45,9 @@ export class Account extends BaseEntity {
   @Column({ type: "json", nullable: false, default: {} })
   common_core!: object;
 
-  @Column({ type: "json", nullable: false, default: [] })
-  season!: Season[];
+  @Column({ type: "json", nullable: false, default: {} })
+  battlepass!: BattlePass;
+
+  @Column({ type: "json", nullable: false, default: {} })
+  stats!: Stats;
 }

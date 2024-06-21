@@ -37,8 +37,7 @@ export default class RegisterCommand extends BaseCommand {
     const email = interaction.options.get("email", true).value;
     const password = interaction.options.get("password", true).value;
 
-    const emailRegex =
-      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
     if (!emailRegex.test(email as string)) {
       const embed = new EmbedBuilder()
@@ -98,13 +97,9 @@ export default class RegisterCommand extends BaseCommand {
             athena,
             common_core,
             discordId,
-            season: [
-              {
-                season: 10,
-                battlepass: Profiles.createBattlePassTemplate(),
-                stats: Profiles.createStatsTemplate(),
-              },
-            ],
+
+            battlepass: Profiles.createBattlePassTemplate(),
+            stats: Profiles.createStatsTemplate(),
           });
         });
 
@@ -122,7 +117,7 @@ export default class RegisterCommand extends BaseCommand {
             name: "Email",
             value: email as string,
             inline: false,
-          }
+          },
         )
 
         .setTimestamp();
