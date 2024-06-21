@@ -110,9 +110,6 @@ export namespace ShopGenerator {
       if (randomItem.type.backendValue === "AthenaCharacter") {
         if (characters < 2) characters++;
         else continue;
-      } else if (randomItem.type.backendValue === "AthenaDance") {
-        if (dances < 1) dances++;
-        else continue;
       }
 
       const entry = createItemEntryTemplate();
@@ -173,6 +170,8 @@ export namespace ShopGenerator {
       });
 
       daily.catalogEntries.push(entry);
+
+      if (characters === 2) break;
     }
 
     /// TODO - Add a accurate minimum of items for S14 and below

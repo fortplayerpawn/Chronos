@@ -38,7 +38,7 @@ await loadRoutes(path.join(__dirname, "routes"), app);
 import("./bot/deployment");
 import("./bot/bot");
 
-rotate(true);
+await rotate(false);
 
 Bun.serve({
   port: config.port,
