@@ -109,6 +109,10 @@ export default class RegisterCommand extends BaseCommand {
             type: "common_core",
             profile: common_core,
           });
+          await profilesService.create({
+            type: "common_public",
+            profile: common_core,
+          });
         });
 
       const embed = new EmbedBuilder()
